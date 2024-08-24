@@ -1,0 +1,18 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/lucassantillan/Desktop/bd1/tp1/output/pt1'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001D78, symSize: 0x7D4 }
+  - { offsetInCU: 0x65, offset: 0x65, size: 0x8, addend: 0x0, symName: _nada, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x7B, offset: 0x7B, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001D78, symSize: 0x7D4 }
+  - { offsetInCU: 0x18C, offset: 0x18C, size: 0x8, addend: 0x0, symName: _convertirAMinusculas, symObjAddr: 0x7D4, symBinAddr: 0x10000254C, symSize: 0x70 }
+  - { offsetInCU: 0x1C1, offset: 0x1C1, size: 0x8, addend: 0x0, symName: _crearArchivo, symObjAddr: 0x844, symBinAddr: 0x1000025BC, symSize: 0x40 }
+  - { offsetInCU: 0x201, offset: 0x201, size: 0x8, addend: 0x0, symName: _leerArchivoEntero, symObjAddr: 0x884, symBinAddr: 0x1000025FC, symSize: 0x210 }
+  - { offsetInCU: 0x290, offset: 0x290, size: 0x8, addend: 0x0, symName: _altaCliente, symObjAddr: 0xA94, symBinAddr: 0x10000280C, symSize: 0x3D0 }
+  - { offsetInCU: 0x32C, offset: 0x32C, size: 0x8, addend: 0x0, symName: _bajaCliente, symObjAddr: 0xE64, symBinAddr: 0x100002BDC, symSize: 0x1EC }
+  - { offsetInCU: 0x3A1, offset: 0x3A1, size: 0x8, addend: 0x0, symName: _modificacionDeRegistro, symObjAddr: 0x1050, symBinAddr: 0x100002DC8, symSize: 0x3B8 }
+  - { offsetInCU: 0x461, offset: 0x461, size: 0x8, addend: 0x0, symName: _limpiarBuffer, symObjAddr: 0x1408, symBinAddr: 0x100003180, symSize: 0x60 }
+  - { offsetInCU: 0x485, offset: 0x485, size: 0x8, addend: 0x0, symName: _contarRegistros, symObjAddr: 0x1468, symBinAddr: 0x1000031E0, symSize: 0x88 }
+  - { offsetInCU: 0x4CD, offset: 0x4CD, size: 0x8, addend: 0x0, symName: _leerRegistro, symObjAddr: 0x14F0, symBinAddr: 0x100003268, symSize: 0x220 }
+  - { offsetInCU: 0x53F, offset: 0x53F, size: 0x8, addend: 0x0, symName: _menuModificacion, symObjAddr: 0x1710, symBinAddr: 0x100003488, symSize: 0x10C }
+...
