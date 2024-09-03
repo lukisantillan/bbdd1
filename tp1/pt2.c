@@ -266,10 +266,12 @@ void bajaCliente(char name[], int codigoCliente, int cantidadDeRegistros)
     // leo cliente
     fread(&cliente, sizeof(t_clientes), 1, arch);
     bool flag = true;
+    int registro;
     // si codigo cliente es distinto al enviado por parametro, entro al ciclo para ver los siguientes;
     while (cliente.codigoCliente != codigoCliente)
     {
         fseek(arch, cliente.siguiente * longitudRegistro, SEEK_CUR);
+        registro = cliente.siguiente;
         fread(&cliente, sizeof(t_clientes), 1, arch);
         if (cliente.siguiente = -1)
         {
@@ -277,7 +279,6 @@ void bajaCliente(char name[], int codigoCliente, int cantidadDeRegistros)
             return;
         }
     }
-
     printf("El cliente al que le quiere realizar la baja es el siguiente: \n");
     printf("\n------------------------------\n");
     printf(" ID: %d |", cliente.codigoCliente);
@@ -286,7 +287,22 @@ void bajaCliente(char name[], int codigoCliente, int cantidadDeRegistros)
 
     if (cliente.siguiente != -1)
     {
-        //SI TIENE SIGUIENTE LO PISO CON EL SIGUIENTE, SI NO TIENE LE CAMBIO EL ESTAOD.
+        // muevo puntero al siguiente para obtener los datos del que sigue
+        fseek(arch, cliente.siguiente * longitudRegistro, SEEK_SET);
+        // obtengo los datos del siguiente.
+        fread(&cliente, sizeof(t_clientes), 1, arch);
+        // muevo puntero al lugar a reemplazar
+        fseek(arch, registro * longitudRegistro, SEEK_CUR);
+        // reescribo arriba del cliente a dar de baja
+        fwrite(&cliente, sizeof(t_clientes), 1, arch);
+        // SI TIENE SIGUIENTE LO PISO CON EL SIGUIENTE, SI NO TIENE LE CAMBIO EL ESTAOD.
+    } else {
+        //MUEVO PUNTERO HACIA ATRAS
+        fseek(arch, -longitudRegistro, SEEK_SET);
+        // MODIFICO EL ESTADO DEL CLIENTE
+        cliente.estado = 2;
+        //REESCRIBO EL CLIENTE 
+        fwrite(&cliente, sizeof(t_clientes), 1, arch);
     }
 }
 
