@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <signal.h>
+#include <ctype.h>
 
 #define MAX_CAMPOS 10
 #define MAX_NOMBRE_CAMPO 50
@@ -48,42 +49,46 @@ void modificarRegistro(char *nombreArchivo);
 void leerArchivoEntero(char *nombreArchivo);
 void limpiarBuffer();
 void crearArchivo(char *nombreMetadata, char *nombreArchivo);
+bool ValidarEntero(int *numero);
 
 int main()
 {
-    // Menú principal
     signal(SIGINT, manejarInterrupcion);
     Metadata metadata;
     int opcion;
     bool flag = false;
+
     do
     {
         printf("\nMenu:\n");
         printf("1. Definir estructura del archivo\n");
         printf("2. Utilizar el archivo (ABM)\n");
         printf("0. Salir\n");
-        printf("Elija una opción: ");
-        scanf("%d", &opcion);
-        limpiarBuffer();
+
+        if (!ValidarEntero(&opcion))
+        {
+            printf("Opción no válida. Intente nuevamente.\n");
+            continue;
+        }
 
         switch (opcion)
         {
         case 1:
             if (flag)
             {
-                printf("\n La estructura ya esta definida, utilice ABM\n");
+                printf("\nLa estructura ya está definida, utilice ABM\n");
                 break;
             }
             definirEstructuraArchivo(&metadata);
             guardarMetadata(&metadata);
-            int respuesta = 0;
+            int respuesta;
             printf("Desea leer el archivo metadata? (1 si - 0 no)\n");
-            scanf("%i", &respuesta);
-            while (respuesta > 1 || respuesta < 0)
+            if (!ValidarEntero(&respuesta))
             {
-                printf("Ingrese un valor valido (1 si - 0 no)\n");
-                scanf("%i", &respuesta);
+                printf("Valor no válido. Intente nuevamente.\n");
+                continue;
             }
+
             if (respuesta == 1)
             {
                 verArchivoMetadata(METADATA_FILENAME);
@@ -94,12 +99,19 @@ int main()
         case 2:
             if (!flag)
             {
-                printf("\nNo definio la estructura del archivo\n");
+                printf("\nNo ha definido la estructura del archivo\n");
                 break;
             }
-            printf("\n1. Alta\n2. Baja\n3. Modificación\n4. Leer archivo \nElija una opción: ");
-            scanf("%d", &opcion);
-            limpiarBuffer();
+            printf("\n1. Alta\n2. Baja\n3. Modificación\n4. Leer archivo \n5. Volver \nElija una opción: ");
+            if (!ValidarEntero(&opcion) || opcion < 1 || opcion > 4)
+            {
+                if (opcion == 5)
+                {
+                    break;
+                }
+                printf("Opción no válida. Intente nuevamente.\n");
+                continue;
+            }
             if (opcion == 1)
             {
                 Registro registro = datosRegistro();
@@ -117,7 +129,6 @@ int main()
             {
                 leerArchivoEntero(FILENAME);
             }
-
             break;
         case 0:
             printf("Saliendo...\n");
@@ -132,25 +143,39 @@ int main()
 
 void definirEstructuraArchivo(Metadata *metadata)
 {
-    printf("Ingrese la cantidad de campos: ");
-    scanf("%d", &metadata->cantidadCampos);
-    limpiarBuffer();
+    bool resultado;
+    do
+    {
+        printf("---- Ingrese la cantidad de campos ----\n");
+        resultado = ValidarEntero(&metadata->cantidadCampos);
+    } while (!resultado);
     int longitud = 0;
     for (int i = 0; i < metadata->cantidadCampos; i++)
     {
-        printf("Ingrese el nombre del campo %d: ", i + 1);
+        printf("--- Ingrese el nombre del campo %d ----", i + 1);
+        printf("\nNombre:");
         fgets(metadata->campos[i].nombre, MAX_NOMBRE_CAMPO, stdin);
         metadata->campos[i].nombre[strcspn(metadata->campos[i].nombre, "\n")] = '\0';
 
-        printf("Ingrese la longitud máxima del campo %d: ", i + 1);
-        scanf("%d", &metadata->campos[i].longitud);
-        limpiarBuffer();
+        printf("--- Ingrese la longitud máxima del campo %d ----\n", i + 1);
+        if (!ValidarEntero(&metadata->campos[i].longitud))
+        {
+            printf("Opción no válida. Intente nuevamente.\n");
+            continue;
+        }
         longitud += metadata->campos[i].longitud;
     }
 
-    printf("Ingrese la cantidad de registros: ");
-    scanf("%d", &metadata->cantidadRegistros);
-    limpiarBuffer();
+    do
+    {
+        printf("--- Ingrese la cantidad de registros ----\n");
+        resultado = ValidarEntero(&metadata->cantidadRegistros);
+        if (!resultado)
+        {
+            printf("Opción no válida. Intente nuevamente.\n");
+            continue;
+        }
+    } while (!resultado);
     metadata->longitudRegistro = longitud;
 }
 
@@ -271,14 +296,22 @@ void altaRegistro(char *nombreArchivo, Registro nuevoRegistro)
     // Loop para pedir la posición hasta que se seleccione una posición libre
     do
     {
-        printf("EN QUE POSICIÓN DESEA DAR EL ALTA DEL REGISTRO : \n");
-        scanf("%d", &posicionAdarElAlta);
+        printf("--- EN QUE POSICIÓN DESEA DAR EL ALTA DEL REGISTRO ---\n");
+        if (!ValidarEntero(&posicionAdarElAlta))
+        {
+            printf("Opción no válida. Intente nuevamente.\n");
+            continue;
+        }
 
         // Verifica si la posición está dentro del rango válido
         while (posicionAdarElAlta >= metadata.cantidadRegistros || posicionAdarElAlta < 0)
         {
-            printf("REINGRESE UNA POSICION CORRECTA : \n");
-            scanf("%d", &posicionAdarElAlta);
+            printf("--- REINGRESE UNA POSICION CORRECTA ---\n");
+            if (!ValidarEntero(&posicionAdarElAlta))
+            {
+                printf("Opción no válida. Intente nuevamente.\n");
+                continue;
+            }
         }
 
         // Mueve el puntero a la posición seleccionada
@@ -342,14 +375,22 @@ void bajaRegistro(char *nombreArchivo)
     // Loop para pedir la posición hasta que se seleccione una posición libre
     do
     {
-        printf("EN QUE POSICIÓN DESEA DAR LA BAJA DEL REGISTRO : \n");
-        scanf("%d", &posicionAdarDeBaja);
+        printf("--- EN QUE POSICIÓN DESEA DAR LA BAJA DEL REGISTRO ---\n");
+        if (!ValidarEntero(&posicionAdarDeBaja))
+        {
+            printf("Opción no válida. Intente nuevamente.\n");
+            continue;
+        }
 
         // Verifica si la posición está dentro del rango válido
         while (posicionAdarDeBaja >= metadata.cantidadRegistros || posicionAdarDeBaja < 0)
         {
-            printf("REINGRESE UNA POSICION CORRECTA : \n");
-            scanf("%d", &posicionAdarDeBaja);
+            printf("--- REINGRESE UNA POSICION CORRECTA ---\n");
+            if (!ValidarEntero(&posicionAdarDeBaja))
+            {
+                printf("Opción no válida. Intente nuevamente.\n");
+                continue;
+            }
         }
 
         // Mueve el puntero a la posición seleccionada
@@ -366,28 +407,33 @@ void bajaRegistro(char *nombreArchivo)
         if (leido.estado != 1)
         {
             printf("La posición está Libre, por lo que no se puede realizar una baja, elija otra\n");
-            printf("Desea ver la lista de los registros? (1-SI) \n");
-            scanf("%d", &posicionAdarDeBaja);
+            printf("Desea ver la lista de los registros? (1-SI) - 0 (salir) \n");
+            if (!ValidarEntero(&posicionAdarDeBaja) || posicionAdarDeBaja < 0 || posicionAdarDeBaja > 1)
+            {
+                printf("Opción no válida. Intente nuevamente.\n");
+                continue;
+            }
             if (posicionAdarDeBaja == 1)
             {
                 leerArchivoEntero(nombreArchivo);
             }
+            else return;
         }
     } while (leido.estado != 1);
 
     int confirmacion;
+    bool con;
     leido.estado = 2;
     fseek(arch, posicionAdarDeBaja * sizeof(Registro), SEEK_SET);
     printf("El registro #%d tiene los siguientes datos: \n", posicionAdarDeBaja);
     printf("Datos : %s \n", leido.datos);
-    printf("Estado : %d", leido.estado);
-    printf("Desea confirmar la eliminación? (1-SI 0-NO) \n");
-    scanf("%d", &confirmacion);
-    while (confirmacion < 0 || confirmacion > 1)
+    printf("Estado : %d\n", leido.estado);
+    do
     {
-        printf("Reingrese un valor correcto - (1 SI - 0 NO)");
-        scanf("%d", &confirmacion);
-    }
+        printf("Desea confirmar la eliminación? (1-SI 0-NO) \n");
+        con = ValidarEntero(&confirmacion);
+    } while (!con || confirmacion < 0 || confirmacion > 1);
+
     if (confirmacion == 1)
     {
         printf("escribiendo nuevo registro\n");
@@ -423,14 +469,22 @@ void modificarRegistro(char *nombreArchivo)
     // Loop para pedir la posición hasta que se seleccione una posición válida
     do
     {
-        printf("EN QUE POSICIÓN DESEA MODIFICAR UN REGISTRO : \n");
-        scanf("%d", &indice);
+        printf("--- EN QUE POSICIÓN DESEA MODIFICAR UN REGISTRO ---\n");
+        if (!ValidarEntero(&indice))
+        {
+            printf("Opción no válida. Intente nuevamente.\n");
+            continue;
+        }
 
         // Verifica si la posición está dentro del rango válido
         while (indice >= metadata.cantidadRegistros || indice < 0)
         {
-            printf("REINGRESE UNA POSICION CORRECTA : \n");
-            scanf("%d", &indice);
+            printf("--- REINGRESE UNA POSICION CORRECTA ---\n");
+            if (!ValidarEntero(&indice))
+            {
+                printf("Opción no válida. Intente nuevamente.\n");
+                continue;
+            }
         }
 
         // Mueve el puntero a la posición seleccionada
@@ -447,13 +501,20 @@ void modificarRegistro(char *nombreArchivo)
         if (leido.estado != 1)
         {
             printf("La posición está Libre, por lo que no se puede realizar una modificación, elija otra\n");
-            printf("Desea ver la lista de los registros? (1-SI) \n");
+            printf("Desea ver la lista de los registros? (1-SI) 0-(SALIR)\n");
             int verRegistros;
-            scanf("%d", &verRegistros);
+            if (ValidarEntero(&verRegistros) || verRegistros < 0 || verRegistros > 1)
+            {
+                continue;
+            }
             if (verRegistros == 1)
             {
                 leerArchivoEntero(nombreArchivo);
+            } else if (verRegistros == 0)
+            {
+                return;
             }
+            
         }
     } while (leido.estado != 1);
 
@@ -461,9 +522,7 @@ void modificarRegistro(char *nombreArchivo)
     printf("El registro #%d tiene los siguientes datos: \n", indice);
     printf("Datos : %s \n", leido.datos);
     printf("Estado : %d\n", leido.estado);
-
-    // Selección del campo a modificar
-    int campo;
+        int campo;
     printf("¿Qué campo desea modificar? (1-%d)\n", metadata.cantidadCampos);
     scanf("%d", &campo);
 
@@ -485,7 +544,7 @@ void modificarRegistro(char *nombreArchivo)
     nuevoValor[strcspn(nuevoValor, "\n")] = '\0';  // Eliminar el salto de línea
 
     // Verificar que el nuevo valor no exceda la longitud permitida
-    if ((int)strlen(nuevoValor) > metadata.campos[campo - 1].longitud)
+    if (strlen(nuevoValor) > metadata.campos[campo - 1].longitud)
     {
         printf("El valor ingresado excede la longitud permitida para el campo.\n");
         fclose(arch);
@@ -499,7 +558,8 @@ void modificarRegistro(char *nombreArchivo)
         if (i == (campo - 1))
         {
             // Copiar el nuevo valor en el campo correspondiente del registro
-            strncpy(leido.datos + offset, nuevoValor, metadata.campos[i].longitud);
+            memset(leido.datos + offset, ' ', metadata.campos[i].longitud);  // Rellenar con espacios
+            strncpy(leido.datos + offset, nuevoValor, strlen(nuevoValor));   // Copiar nuevo valor
             break;
         }
         offset += metadata.campos[i].longitud;
@@ -614,4 +674,61 @@ void manejarInterrupcion(int signum)
     printf("\nInterrupción detectada. Cerrando correctamente...\n");
     // Realiza limpieza aquí (cierra archivos, libera memoria, etc.)
     exit(signum);
+}
+
+void sacarEspacios(char *cad)
+{
+    int longCadena = strlen(cad);
+    int i = 0;
+    int j = longCadena - 1;
+
+    while (isspace(cad[i]))
+    {
+        i++;
+    }
+
+    while (j >= 0 && isspace(cad[j]))
+    {
+        j--;
+    }
+
+    cad[j + 1] = '\0';
+
+    if (i > 0)
+    {
+        int k;
+        for (k = 0; k <= j - i + 1; k++)
+        {
+            cad[k] = cad[i + k];
+        }
+        cad[k] = '\0';
+    }
+}
+
+bool ValidarEntero(int *numero)
+{
+    char cadena[12];
+    bool esValido = false;
+
+    while (!esValido)
+    {
+        printf("Ingresar numero: ");
+        fgets(cadena, 12, stdin);
+
+        // Verificamos si es un número válido
+        char *endPtr;
+        *numero = strtol(cadena, &endPtr, 10);
+
+        // Verificamos que toda la cadena sea un número y esté dentro del rango
+        if (endPtr == cadena || *endPtr != '\n')
+        {
+            printf("ERROR: Ingresa un número válido.\n");
+        }
+        else
+        {
+            esValido = true;
+        }
+    }
+
+    return esValido;
 }
