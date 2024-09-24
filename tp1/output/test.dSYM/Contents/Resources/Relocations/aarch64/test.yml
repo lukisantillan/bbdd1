@@ -1,8 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '/Users/lucassantillan/Desktop/bd1/tp1/output/test'
-relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _multiplicacion, symObjAddr: 0x0, symBinAddr: 0x100003E70, symSize: 0xAC }
-  - { offsetInCU: 0x41, offset: 0x41, size: 0x8, addend: 0x0, symName: _multiplicacion, symObjAddr: 0x0, symBinAddr: 0x100003E70, symSize: 0xAC }
-  - { offsetInCU: 0x77, offset: 0x77, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0xAC, symBinAddr: 0x100003F1C, symSize: 0x4C }
-...
