@@ -2,20 +2,20 @@
 triple:          'arm64-apple-darwin'
 binary-path:     '/Users/lucassantillan/Desktop/bd1/tp1/output/pt3'
 relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001974, symSize: 0x2E4 }
-  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _NULO, symObjAddr: 0x1BD8, symBinAddr: 0x100003654, symSize: 0x0 }
-  - { offsetInCU: 0x68, offset: 0x68, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100001974, symSize: 0x2E4 }
-  - { offsetInCU: 0xE4, offset: 0xE4, size: 0x8, addend: 0x0, symName: _manejarInterrupcion, symObjAddr: 0x2E4, symBinAddr: 0x100001C58, symSize: 0x24 }
-  - { offsetInCU: 0x10A, offset: 0x10A, size: 0x8, addend: 0x0, symName: _ValidarEntero, symObjAddr: 0x308, symBinAddr: 0x100001C7C, symSize: 0x108 }
-  - { offsetInCU: 0x16F, offset: 0x16F, size: 0x8, addend: 0x0, symName: _definirEstructuraArchivo, symObjAddr: 0x410, symBinAddr: 0x100001D84, symSize: 0x20C }
-  - { offsetInCU: 0x1CB, offset: 0x1CB, size: 0x8, addend: 0x0, symName: _guardarMetadata, symObjAddr: 0x61C, symBinAddr: 0x100001F90, symSize: 0x78 }
-  - { offsetInCU: 0x1FD, offset: 0x1FD, size: 0x8, addend: 0x0, symName: _verArchivoMetadata, symObjAddr: 0x694, symBinAddr: 0x100002008, symSize: 0x14C }
-  - { offsetInCU: 0x259, offset: 0x259, size: 0x8, addend: 0x0, symName: _crearArchivo, symObjAddr: 0x7E0, symBinAddr: 0x100002154, symSize: 0x1AC }
-  - { offsetInCU: 0x2EE, offset: 0x2EE, size: 0x8, addend: 0x0, symName: _altaRegistro, symObjAddr: 0x98C, symBinAddr: 0x100002300, symSize: 0x288 }
-  - { offsetInCU: 0x37D, offset: 0x37D, size: 0x8, addend: 0x0, symName: _bajaRegistro, symObjAddr: 0xC14, symBinAddr: 0x100002588, symSize: 0x3CC }
-  - { offsetInCU: 0x40C, offset: 0x40C, size: 0x8, addend: 0x0, symName: _modificarRegistro, symObjAddr: 0xFE0, symBinAddr: 0x100002954, symSize: 0x628 }
-  - { offsetInCU: 0x4F8, offset: 0x4F8, size: 0x8, addend: 0x0, symName: _leerArchivoEntero, symObjAddr: 0x1608, symBinAddr: 0x100002F7C, symSize: 0x134 }
-  - { offsetInCU: 0x54B, offset: 0x54B, size: 0x8, addend: 0x0, symName: _datosRegistro, symObjAddr: 0x173C, symBinAddr: 0x1000030B0, symSize: 0x2CC }
-  - { offsetInCU: 0x5F2, offset: 0x5F2, size: 0x8, addend: 0x0, symName: _limpiarBuffer, symObjAddr: 0x1A08, symBinAddr: 0x10000337C, symSize: 0x60 }
-  - { offsetInCU: 0x618, offset: 0x618, size: 0x8, addend: 0x0, symName: _sacarEspacios, symObjAddr: 0x1A68, symBinAddr: 0x1000033DC, symSize: 0x170 }
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000019C8, symSize: 0x2EC }
+  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _NULO, symObjAddr: 0x1BD8, symBinAddr: 0x1000036A8, symSize: 0x0 }
+  - { offsetInCU: 0x68, offset: 0x68, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000019C8, symSize: 0x2EC }
+  - { offsetInCU: 0xE4, offset: 0xE4, size: 0x8, addend: 0x0, symName: _manejarInterrupcion, symObjAddr: 0x2FC, symBinAddr: 0x100001CC4, symSize: 0x24 }
+  - { offsetInCU: 0x10A, offset: 0x10A, size: 0x8, addend: 0x0, symName: _ValidarEntero, symObjAddr: 0x320, symBinAddr: 0x100001CE8, symSize: 0x108 }
+  - { offsetInCU: 0x16F, offset: 0x16F, size: 0x8, addend: 0x0, symName: _definirEstructuraArchivo, symObjAddr: 0x428, symBinAddr: 0x100001DF0, symSize: 0x20C }
+  - { offsetInCU: 0x1CB, offset: 0x1CB, size: 0x8, addend: 0x0, symName: _guardarMetadata, symObjAddr: 0x634, symBinAddr: 0x100001FFC, symSize: 0x78 }
+  - { offsetInCU: 0x1FD, offset: 0x1FD, size: 0x8, addend: 0x0, symName: _verArchivoMetadata, symObjAddr: 0x6AC, symBinAddr: 0x100002074, symSize: 0x14C }
+  - { offsetInCU: 0x259, offset: 0x259, size: 0x8, addend: 0x0, symName: _crearArchivo, symObjAddr: 0x7F8, symBinAddr: 0x1000021C0, symSize: 0x1AC }
+  - { offsetInCU: 0x2EF, offset: 0x2EF, size: 0x8, addend: 0x0, symName: _altaRegistro, symObjAddr: 0x9A4, symBinAddr: 0x10000236C, symSize: 0x288 }
+  - { offsetInCU: 0x37E, offset: 0x37E, size: 0x8, addend: 0x0, symName: _bajaRegistro, symObjAddr: 0xC2C, symBinAddr: 0x1000025F4, symSize: 0x3C0 }
+  - { offsetInCU: 0x40D, offset: 0x40D, size: 0x8, addend: 0x0, symName: _modificarRegistro, symObjAddr: 0xFEC, symBinAddr: 0x1000029B4, symSize: 0x61C }
+  - { offsetInCU: 0x4DB, offset: 0x4DB, size: 0x8, addend: 0x0, symName: _leerArchivoEntero, symObjAddr: 0x1608, symBinAddr: 0x100002FD0, symSize: 0x134 }
+  - { offsetInCU: 0x52E, offset: 0x52E, size: 0x8, addend: 0x0, symName: _datosRegistro, symObjAddr: 0x173C, symBinAddr: 0x100003104, symSize: 0x2CC }
+  - { offsetInCU: 0x5D5, offset: 0x5D5, size: 0x8, addend: 0x0, symName: _limpiarBuffer, symObjAddr: 0x1A08, symBinAddr: 0x1000033D0, symSize: 0x60 }
+  - { offsetInCU: 0x5FB, offset: 0x5FB, size: 0x8, addend: 0x0, symName: _sacarEspacios, symObjAddr: 0x1A68, symBinAddr: 0x100003430, symSize: 0x170 }
 ...

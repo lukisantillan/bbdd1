@@ -63,6 +63,7 @@ int main()
         printf("\nMenu:\n");
         printf("1. Definir estructura del archivo\n");
         printf("2. Utilizar el archivo (ABM)\n");
+        printf("3. Leer archivo ABM \n");
         printf("0. Salir\n");
 
         if (!ValidarEntero(&opcion))
@@ -102,10 +103,10 @@ int main()
                 printf("\nNo ha definido la estructura del archivo\n");
                 break;
             }
-            printf("\n1. Alta\n2. Baja\n3. Modificación\n4. Leer archivo \n5. Volver \nElija una opción: ");
+            printf("\n1. Alta\n2. Baja\n3. Modificación\n4. Volver \nElija una opción: ");
             if (!ValidarEntero(&opcion) || opcion < 1 || opcion > 4)
             {
-                if (opcion == 5)
+                if (opcion == 4)
                 {
                     break;
                 }
@@ -125,10 +126,14 @@ int main()
             {
                 modificarRegistro(FILENAME);
             }
-            else if (opcion == 4)
+            break;
+        case 3:
+            if (!flag)
             {
-                leerArchivoEntero(FILENAME);
-            }
+                printf("\n --- Todavia no definiste la estructura ---\n");
+                break;
+            } else leerArchivoEntero(FILENAME);
+            
             break;
         case 0:
             printf("Saliendo...\n");
@@ -417,7 +422,8 @@ void bajaRegistro(char *nombreArchivo)
             {
                 leerArchivoEntero(nombreArchivo);
             }
-            else return;
+            else
+                return;
         }
     } while (leido.estado != 1);
 
@@ -438,7 +444,7 @@ void bajaRegistro(char *nombreArchivo)
     {
         printf("escribiendo nuevo registro\n");
         fwrite(&leido, sizeof(Registro), 1, arch);
-    }
+    } 
     fclose(arch);
 }
 
@@ -497,24 +503,20 @@ void modificarRegistro(char *nombreArchivo)
 
         // Lee el registro en la posición seleccionada
         fread(&leido, sizeof(Registro), 1, arch);
-
         if (leido.estado != 1)
         {
-            printf("La posición está Libre, por lo que no se puede realizar una modificación, elija otra\n");
-            printf("Desea ver la lista de los registros? (1-SI) 0-(SALIR)\n");
-            int verRegistros;
-            if (ValidarEntero(&verRegistros) || verRegistros < 0 || verRegistros > 1)
+            printf("La posición está Libre, por lo que no se puede realizar una baja, elija otra\n");
+            printf("Desea ver la lista de los registros? (1-SI) - 0 (salir) \n");
+            if (!ValidarEntero(&indice) || indice < 0 || indice > 1)
             {
+                printf("Opción no válida. Intente nuevamente.\n");
                 continue;
             }
-            if (verRegistros == 1)
+            if (indice == 1)
             {
                 leerArchivoEntero(nombreArchivo);
-            } else if (verRegistros == 0)
-            {
-                return;
             }
-            
+            else return;
         }
     } while (leido.estado != 1);
 
@@ -522,7 +524,7 @@ void modificarRegistro(char *nombreArchivo)
     printf("El registro #%d tiene los siguientes datos: \n", indice);
     printf("Datos : %s \n", leido.datos);
     printf("Estado : %d\n", leido.estado);
-        int campo;
+    int campo;
     printf("¿Qué campo desea modificar? (1-%d)\n", metadata.cantidadCampos);
     scanf("%d", &campo);
 
@@ -539,9 +541,9 @@ void modificarRegistro(char *nombreArchivo)
 
     // Obtener el nuevo valor para el campo
     printf("\nIngrese el nuevo valor para el campo %s: ", metadata.campos[campo - 1].nombre);
-    char nuevoValor[metadata.campos[campo - 1].longitud + 1];  // +1 para el terminador nulo
+    char nuevoValor[metadata.campos[campo - 1].longitud + 1]; // +1 para el terminador nulo
     fgets(nuevoValor, sizeof(nuevoValor), stdin);
-    nuevoValor[strcspn(nuevoValor, "\n")] = '\0';  // Eliminar el salto de línea
+    nuevoValor[strcspn(nuevoValor, "\n")] = '\0'; // Eliminar el salto de línea
 
     // Verificar que el nuevo valor no exceda la longitud permitida
     if (strlen(nuevoValor) > metadata.campos[campo - 1].longitud)
@@ -558,8 +560,8 @@ void modificarRegistro(char *nombreArchivo)
         if (i == (campo - 1))
         {
             // Copiar el nuevo valor en el campo correspondiente del registro
-            memset(leido.datos + offset, ' ', metadata.campos[i].longitud);  // Rellenar con espacios
-            strncpy(leido.datos + offset, nuevoValor, strlen(nuevoValor));   // Copiar nuevo valor
+            memset(leido.datos + offset, ' ', metadata.campos[i].longitud); // Rellenar con espacios
+            strncpy(leido.datos + offset, nuevoValor, strlen(nuevoValor));  // Copiar nuevo valor
             break;
         }
         offset += metadata.campos[i].longitud;
