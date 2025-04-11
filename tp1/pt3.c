@@ -58,6 +58,13 @@ int main()
     int opcion;
     bool flag = false;
 
+    // chequeo si hay un archivo metadata.bin creado
+    FILE *archivo = fopen(METADATA_FILENAME, "rb");
+    if (archivo != NULL)
+    {
+        flag = true;
+    }
+
     do
     {
         printf("\nMenu:\n");
@@ -655,7 +662,7 @@ void leerArchivoEntero(char *nombreArchivo)
         {
             printf("Registro #%d:\n", index);
             printf("Estado   : %d", cliente.estado);
-            printf("\tDatos    : %s\n", cliente.datos);
+            printf("\nDatos    : %s\n", cliente.datos);
             printf("------------------------------\n");
         }
         index++;
