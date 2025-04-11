@@ -110,6 +110,12 @@ int main()
                 printf("\nNo ha definido la estructura del archivo\n");
                 break;
             }
+            // si el archivo datos no existe lo creo
+            FILE *datos = fopen(FILENAME, "rb");
+            if (datos == NULL)
+            {
+                crearArchivo(METADATA_FILENAME, FILENAME);
+            }
             printf("\n1. Alta\n2. Baja\n3. Modificación\n4. Volver \nElija una opción: ");
             if (!ValidarEntero(&opcion) || opcion < 1 || opcion > 4)
             {
@@ -139,8 +145,10 @@ int main()
             {
                 printf("\n --- Todavia no definiste la estructura ---\n");
                 break;
-            } else leerArchivoEntero(FILENAME);
-            
+            }
+            else
+                leerArchivoEntero(FILENAME);
+
             break;
         case 0:
             printf("Saliendo...\n");
@@ -451,7 +459,7 @@ void bajaRegistro(char *nombreArchivo)
     {
         printf("escribiendo nuevo registro\n");
         fwrite(&leido, sizeof(Registro), 1, arch);
-    } 
+    }
     fclose(arch);
 }
 
@@ -523,7 +531,8 @@ void modificarRegistro(char *nombreArchivo)
             {
                 leerArchivoEntero(nombreArchivo);
             }
-            else return;
+            else
+                return;
         }
     } while (leido.estado != 1);
 
